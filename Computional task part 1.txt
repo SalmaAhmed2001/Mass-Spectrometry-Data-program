@@ -1,0 +1,85 @@
+!pip install numpy
+!pip install pyopenms
+!pip install pandas
+from pyopenms import *
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import numpy as np
+import pandas as pd
+from mpl_toolkits.mplot3d import axes3d
+
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+from matplotlib import style
+
+style.use("ggplot")
+
+import matplotlib.pyplot as plt
+%matplotlib notebook
+
+exp = MSExperiment()
+# load example file
+MzMLFile().load("C:\\Users\\Khloud Farouk\\Desktop\\ea10680.mzML", exp)
+
+mz=[]
+intensity=[]
+retention_time=[]
+for spec in exp:
+    if spec.getMSLevel()==1:
+           
+            for peak in spec:
+                intensity.append(peak.getIntensity())
+                mz.append(peak.getMZ())
+                retention_time.append(spec.getRT()*len(mz))
+
+
+data={'MZ':mz[:100],'Intesity':intensity[:100],'RT':retention_time[:100]}
+df = pd.DataFrame(data)
+print(df)
+
+
+fig = plt.figure()
+
+ax1 = fig.add_subplot(111, projection="3d")
+
+#arguments
+
+x3 = (df["MZ"])
+
+y3 = (df["Intesity"])
+
+z3=(df["RT"])
+#arguments
+
+dx = np.ones(100)
+
+dy = np.ones(100)
+
+dz = (100)
+
+#bar chart object and arguments
+
+ax1.bar3d(x3, y3, z3, dx, dy, dz)
+
+#set axis lables
+
+ax1.set_xlabel("MZ")
+
+ax1.set_ylabel("intensity")
+
+ax1.set_zlabel("RT")
+
+plt.show()
+
+
+
+
+
+
+
+
+
+

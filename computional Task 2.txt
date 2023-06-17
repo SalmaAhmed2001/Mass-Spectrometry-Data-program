@@ -1,0 +1,46 @@
+!pip install numpy
+!pip install pyopenms
+!pip install pandas
+from pyopenms import *
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import numpy as np
+import pandas as pd
+from mpl_toolkits.mplot3d import axes3d
+
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+from matplotlib import style
+
+style.use("ggplot")
+
+import matplotlib.pyplot as plt
+%matplotlib notebook
+
+
+exp = MSExperiment()
+# load example file
+MzMLFile().load("C:\\Users\\Khloud Farouk\\Desktop\\ea10680.mzML", exp)
+MZ_Start=403.0
+MZ_End=403.305359
+inten = []
+reten=[]
+
+for spec in exp:
+    if spec.getMSLevel() == 1:
+        for peak in spec:
+            if peak.getMZ()>=MZ_Start and peak.getMZ()<=MZ_End :
+                inten.append(peak.getIntensity())
+                reten.append(spec.getRT())
+print(inten)
+print(reten)
+
+from pylab import *
+plt.plot(reten[:100],inten[:100])
+xlabel('RT')
+ylabel('Intensity')
+title('2D plot for intesity and  RT with constant MZ')
+plt.show()
